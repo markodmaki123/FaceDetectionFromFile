@@ -1,0 +1,18 @@
+faceFile = "0_face.jpg"
+faceImage = cv2.imread(faceFile)
+rgb = cv2.cvtColor(faceImage, cv2.COLOR_BGR2RGB)
+boxes = face_recognition.face_locations(rgb, 1, model="cnn")
+faceEncoding = face_recognition.face_encodings(faceImage, boxes)
+
+faceToCompareFile = "foundface.jpg"
+faceToCompare = cv2.imread(faceToCompareFile)
+rgb = cv2.cvtColor(faceToCompare, cv2.COLOR_BGR2RGB)
+boxes = face_recognition.face_locations(rgb, 1, model="cnn")
+faceToCompareEncoding = face_recognition.face_encodings(faceToCompare, boxes)
+
+results = face_recognition.compare_faces(np.array(faceEncoding), np.array(faceToCompareEncoding), 0.1)
+
+if results is True:
+    print("Found face is the same as the face in the file.")
+else:
+    print("Faces are not the same.")
